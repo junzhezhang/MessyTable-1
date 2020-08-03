@@ -19,47 +19,41 @@ pip install scipy==1.2.0
 ```
 ## Get started
 ### Pretrained Models
-* Pretrained resnet18: `pretrained_models/model.pth' (Place at src/ for training)
-* Pretrained ASNet: `pretrained_models/model.pth' (Place at models/asnet/ for evaluation)
+* Pretrained resnet18: `pretrained_models/resnet18.pth' (Place at `src/` for training)
+* Pretrained ASNet: `pretrained_models/ASNet.pth' (Place at `models/asnet/` or `models/asnet_1gpu` for evaluation)
 ### Dataset Preparation
 * Download the dataset
 * Place the dataset under folder `data/`, alternatively, indicate 'data_dir' in the config file `models/<config_dir>/train.yaml`.
 * Make sure that all the images are in `images/` and all the json files are in `labels/`.
 ### Training
-* In the slurm environment, with 8 GPUs
+* Please take note that our results are obtained on 8 GPU, with batch_size = 512. 
 ```
-srun -u --partition=<partition_name> -n1 --gres=gpu:8 --ntasks-per-node=1 \
-    python mt_train.py \
-    --config_dir asnet
+python train.py --config_dir asnet
 ```
-* Alternatively
+* On a single GPU, you can try the following with batch_size = 64.
 ```
-python mt_train.py --config_dir asnet
+python train.py --config_dir asnet_1gpu
 ```
 ### Evaluating Appearance Feature Model
-* Here, the appearance model refers to any neural networks trained, such as ASNet and TripletNet.
+* Here, the appearance model refers to any neural networks trained, such as ASNet and TripletNet. You can change the json file to evaluate different data splits.
 ```
-srun -u --partition=<partition_name> -n1 --gres=gpu:1 --ntasks-per-node=1 \
-    python test.py --config_dir asnet \
-    --eval_json <eval_data_split>.json \
-    --load_features false \
-    --save_features true \
-    --eval_model true 
+python test.py --config_dir asnet \
+--eval_json test.json \
+--save_features \
+--eval_model
 ```
 
 ### Evaluating Appearance Feature Model with Epipolar Soft Constraint
 ```
-srun -u --partition=<partition_name> -n1 --gres=gpu:1 --ntasks-per-node=1 \
-    python test.py --config_dir asnet \
-    --eval_json <eval_data_split>.json \
-    --load_features true \
-    --eval_model_esc true 
+python test.py --config_dir asnet \
+--eval_json test.json \
+--load_features \
+--eval_model_esc 
 ```
 ### Evaluating by Angle Differences
 ```
-srun -u --partition=<partition_name> -n1 --gres=gpu:1 --ntasks-per-node=1 \
-    python test.py --config_dir asnet \
-    --eval_json <eval_data_split>.json \
-    --load_features true \
-    --eval_by_angle true 
+python test.py --config_dir asnet \
+--eval_json test.json \
+--load_features \
+--eval_by_angle 
 ```
