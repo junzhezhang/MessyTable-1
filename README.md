@@ -19,8 +19,8 @@ pip install scipy==1.2.0
 ```
 ## Get started
 ### Pretrained Models
-* Pretrained resnet18: `pretrained_models/resnet18.pth' (Place at `src/` for training)
-* Pretrained ASNet: `pretrained_models/ASNet.pth' (Place at `models/asnet/` or `models/asnet_1gpu` for evaluation)
+* Pretrained resnet18: `pretrained_models/resnet18.pth` (Place at `src/` for training)
+* Pretrained ASNet: `pretrained_models/ASNet.pth` (Place at `models/asnet/` or `models/asnet_1gpu` for evaluation)
 ### Dataset Preparation
 * Download the dataset
 * Place the dataset under folder `data/`, alternatively, indicate 'data_dir' in the config file `models/<config_dir>/train.yaml`.
